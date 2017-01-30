@@ -27,7 +27,8 @@ public class Robo {
     private TextureRegion currentFrame;
     int frame_cols;
     Animation anim;
-    Texture roboTex, roboWalkRight;
+    Texture roboTex, roboWalkRight, roboAir, animSheet;
+
     enum State  {   RIGHT,
                     LEFT    }
     State state;
@@ -59,9 +60,11 @@ public class Robo {
         robo = new Sprite(roboTex);
         robo.setSize(4, 4); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
         roboWalkRight = new Texture("robotti/robotti_walkRight.png");
-        currentFrame = new TextureRegion(roboTex);
+        roboAir = new Texture("robotti/ropotti_air.png");
+        //currentFrame = new TextureRegion(roboTex);
+        animSheet = roboTex;
 
-        animSpeed = .03f;
+
         frame_cols = 1;
     }
 
@@ -71,34 +74,35 @@ public class Robo {
         //2 = LEFT
         //3 = JUMP
 
-        velocity = body.getLinearVelocity();
-        if (velocity.y != 0) midair = true;
-        else midair = false;
+
 
         if (!midair) {
             switch (direction) {
                 case 0:
                     body.setLinearVelocity(0, 0);
                     frame_cols = 1;
-                    anim(roboTex);
+                    //anim(roboTex);
+                    animSheet = roboTex;
                     break;
                 case 1:
                     if (velocity.x < 2) body.applyLinearImpulse(2, 0, position.x, position.y, true);
                     frame_cols = 8;
-                    anim(roboWalkRight);
+                    //anim(roboWalkRight);
+                    animSheet = roboWalkRight;
                     state = State.RIGHT;
                     break;
                 case 2:
                     if (velocity.x > -2)
                         body.applyLinearImpulse(-2, 0, position.x, position.y, true);
                     frame_cols = 8;
-                    anim(roboWalkRight);
+                    animSheet = roboWalkRight;
                     state = State.LEFT;
                     break;
                 case 3:
+                    midair = true;
                     body.applyLinearImpulse(0, 8, position.x, position.y, true);
-                    frame_cols = 1;
-                    anim(roboTex);
+                    frame_cols = 8;
+                    animSheet = roboAir;
                     break;
                 default:
                     body.setLinearVelocity(0, 0);
@@ -115,8 +119,18 @@ public class Robo {
         robo.draw(batch);
     }
 
-    public void anim(Texture animSheet) {
+    public void anim() {
         stateTime += Gdx.graphics.getDeltaTime();
+
+        //TÄMÄ TÄÄLLÄ, KOSKA HALUTAAN ANIMAATION JATKUVAN, VAIKKEI INPUTISTA TULISIKAAN MOVE()-KÄSKYÄ
+        velocity = body.getLinearVelocity();
+        if(midair && velocity.y == 0) {
+            midair = false;
+            frame_cols = 1;
+            animSheet = roboTex;
+        }
+        if(midair) animSpeed = .09f;
+        else animSpeed = .05f;
 
         animFrames = new TextureRegion[frame_cols];
         int index = 0;

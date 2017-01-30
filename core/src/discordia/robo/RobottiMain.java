@@ -47,6 +47,7 @@ public class RobottiMain extends ApplicationAdapter {
 		camera.update();
 
 		batch.begin();
+		level.draw(batch);
 		robo.draw(batch);
 		batch.end();
 		debug.render(world, camera.combined);

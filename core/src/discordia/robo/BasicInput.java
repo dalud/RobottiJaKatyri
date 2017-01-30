@@ -21,6 +21,8 @@ public class BasicInput implements InputProcessor {
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) robo.move(2);
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) robo.move(0);
+
+        robo.anim();
     }
 
     @Override
