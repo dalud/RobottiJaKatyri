@@ -31,6 +31,7 @@ public class Robo {
     enum State  {   RIGHT,
                     LEFT    }
     State state;
+    boolean midair;
 
     public Robo(World world){
         //FYSIIKKA
@@ -46,7 +47,7 @@ public class Robo {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = box;
         fixtureDef.density = 0f;
-        fixtureDef.friction = 0f;
+        fixtureDef.friction = 1f;
         fixtureDef.restitution = 0f;
         Fixture fixture = body.createFixture(fixtureDef);
 
@@ -68,27 +69,41 @@ public class Robo {
         //0 = STOP
         //1 = RIGHT
         //2 = LEFT
+        //3 = JUMP
 
         velocity = body.getLinearVelocity();
+        if (velocity.y != 0) midair = true;
+        else midair = false;
 
-        switch(direction){
-            case 0:
-                body.setLinearVelocity(0, 0);
-                frame_cols = 1;
-                anim(roboTex);
-                break;
-            case 1:
-                if(velocity.x < 2) body.applyLinearImpulse(2, 0, position.x, position.y, true);
-                frame_cols = 8;
-                anim(roboWalkRight);
-                state = State.RIGHT;
-                break;
-            case 2:
-                if(velocity.x > -2) body.applyLinearImpulse(-2, 0, position.x, position.y, true);
-                frame_cols = 8;
-                anim(roboWalkRight);
-                state = State.LEFT;
-                break;
+        if (!midair) {
+            switch (direction) {
+                case 0:
+                    body.setLinearVelocity(0, 0);
+                    frame_cols = 1;
+                    anim(roboTex);
+                    break;
+                case 1:
+                    if (velocity.x < 2) body.applyLinearImpulse(2, 0, position.x, position.y, true);
+                    frame_cols = 8;
+                    anim(roboWalkRight);
+                    state = State.RIGHT;
+                    break;
+                case 2:
+                    if (velocity.x > -2)
+                        body.applyLinearImpulse(-2, 0, position.x, position.y, true);
+                    frame_cols = 8;
+                    anim(roboWalkRight);
+                    state = State.LEFT;
+                    break;
+                case 3:
+                    body.applyLinearImpulse(0, 8, position.x, position.y, true);
+                    frame_cols = 1;
+                    anim(roboTex);
+                    break;
+                default:
+                    body.setLinearVelocity(0, 0);
+                    break;
+            }
         }
     }
 

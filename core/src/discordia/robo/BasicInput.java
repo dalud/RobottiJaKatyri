@@ -25,6 +25,8 @@ public class BasicInput implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if(keycode == Input.Keys.SPACE) robo.move(3);
+
         return false;
     }
 
