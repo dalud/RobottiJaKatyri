@@ -61,42 +61,35 @@ public class Robo {
         robo.setSize(4, 4); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
         roboWalkRight = new Texture("robotti/robotti_walkRight.png");
         roboAir = new Texture("robotti/ropotti_air.png");
-        //currentFrame = new TextureRegion(roboTex);
         animSheet = roboTex;
-
-
         frame_cols = 1;
     }
 
     public void move(int direction) {
         //0 = STOP
-        //1 = RIGHT
-        //2 = LEFT
+        //1 = LEFT
+        //2 = RIGHT
         //3 = JUMP
-
-
 
         if (!midair) {
             switch (direction) {
                 case 0:
-                    body.setLinearVelocity(0, 0);
+                    body.setLinearVelocity(0, body.getLinearVelocity().y);
                     frame_cols = 1;
-                    //anim(roboTex);
                     animSheet = roboTex;
                     break;
                 case 1:
-                    if (velocity.x < 2) body.applyLinearImpulse(2, 0, position.x, position.y, true);
-                    frame_cols = 8;
-                    //anim(roboWalkRight);
-                    animSheet = roboWalkRight;
-                    state = State.RIGHT;
-                    break;
-                case 2:
-                    if (velocity.x > -2)
-                        body.applyLinearImpulse(-2, 0, position.x, position.y, true);
+                    if (velocity.x > -2) body.applyLinearImpulse(-2, 0, position.x, position.y, true);
                     frame_cols = 8;
                     animSheet = roboWalkRight;
                     state = State.LEFT;
+                    break;
+                case 2:
+                    if (velocity.x < 2)
+                        body.applyLinearImpulse(2, 0, position.x, position.y, true);
+                    frame_cols = 8;
+                    animSheet = roboWalkRight;
+                    state = State.RIGHT;
                     break;
                 case 3:
                     midair = true;
