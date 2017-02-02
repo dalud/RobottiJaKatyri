@@ -43,7 +43,7 @@ public class Robo {
         body = world.createBody(bodyDef);
 
         PolygonShape box = new PolygonShape();
-        box.setAsBox(1, 2);
+        box.setAsBox(1, 3);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = box;
@@ -58,7 +58,7 @@ public class Robo {
         //GRAFIIKKA
         roboTex = new Texture("robotti/ropotti.png");
         robo = new Sprite(roboTex);
-        robo.setSize(4, 4); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
+        robo.setSize(6, 6); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
         roboWalkRight = new Texture("robotti/robotti_walkRight.png");
         roboAir = new Texture("robotti/ropotti_air.png");
         animSheet = roboTex;
@@ -106,7 +106,7 @@ public class Robo {
 
     public void draw(SpriteBatch batch){
         position = body.getPosition();
-        robo.setPosition(position.x-2, position.y-2);
+        robo.setPosition(position.x-3, position.y-3);
         if(state == State.LEFT && !currentFrame.isFlipX()) currentFrame.flip(true, false); //KATO! TÄSSÄHÄN OPPII UUTTA!
         robo.setRegion(currentFrame); //HUOM! AIKA TÄRKEÄ FUNKTIO, JOTA EI LÖYDY GDX-JAVADOCISTA
         robo.draw(batch);
