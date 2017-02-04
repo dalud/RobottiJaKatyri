@@ -9,38 +9,38 @@ import com.badlogic.gdx.InputProcessor;
  */
 
 public class BasicInput implements InputProcessor {
-    Robo robo;
+    Controllable slave;
     int move, meridian, finger;
 
 
-    public BasicInput(Robo robo){
-        this.robo = robo;
+    public BasicInput(Controllable slave){
+        this.slave = slave;
         meridian = Gdx.graphics.getWidth()/2;
     }
 
     public void poll() {
         //KEYS
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) robo.move(0);
-        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) robo.move(1);
-        else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) robo.move(2);
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) slave.move(0);
+        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) slave.move(1);
+        else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) slave.move(2);
 
         //TOUCH
-        else robo.move(move);
+        else slave.move(move);
 
         //TÄÄLLÄ KOSKA MOVE() ANIMOISI VAIN NAPPI ALHAALLA
-        robo.anim();
+        slave.anim();
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode == Input.Keys.SPACE) robo.move(3);
+        if(keycode == Input.Keys.SPACE) slave.move(3);
 
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT) robo.move(0);
+        if(keycode == Input.Keys.RIGHT || keycode == Input.Keys.LEFT) slave.move(0);
 
         return false;
     }
@@ -54,7 +54,7 @@ public class BasicInput implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         finger++;
 
-        if(finger == 2) robo.move(3);
+        if(finger == 2) slave.move(3);
         if (screenX < meridian) move = 1;
         else move = 2;
 

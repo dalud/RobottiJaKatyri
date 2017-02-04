@@ -16,7 +16,7 @@ public class RobottiMain extends ApplicationAdapter {
 	Box2DDebugRenderer debug;
 	OrthographicCamera camera;
 	Level level;
-	Robo robo;
+	Robotti robo;
 	BasicInput input;
 	
 	@Override
@@ -27,7 +27,7 @@ public class RobottiMain extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera(32, 18); //KOSKA HALUTAAN KÄYTTÄÄ FYSIIKKABOXIEN KO'OISSA 1siä EIKÄ .5sia
 		level = new Level(world);
-		robo = new Robo(world);
+		robo = new Robotti(world);
 		input = new BasicInput(robo);
 		Gdx.input.setInputProcessor(input);
 
