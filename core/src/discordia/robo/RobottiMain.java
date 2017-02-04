@@ -17,7 +17,9 @@ public class RobottiMain extends ApplicationAdapter {
 	OrthographicCamera camera;
 	Level level;
 	Robotti robo;
+	Katyri katyri;
 	BasicInput input;
+	AIInput ai;
 	
 	@Override
 	public void create () {
@@ -28,8 +30,10 @@ public class RobottiMain extends ApplicationAdapter {
 		camera = new OrthographicCamera(32, 18); //KOSKA HALUTAAN KÄYTTÄÄ FYSIIKKABOXIEN KO'OISSA 1siä EIKÄ .5sia
 		level = new Level(world);
 		robo = new Robotti(world);
+		katyri = new Katyri(world);
 		input = new BasicInput(robo);
 		Gdx.input.setInputProcessor(input);
+		ai = new AIInput(katyri, robo);
 
 		camera.position.set(0, 7, 0);
 		camera.update();
@@ -43,6 +47,7 @@ public class RobottiMain extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 
 		input.poll();
+		ai.poll();
 		camera.position.set(robo.position.x, robo.position.y+3, 0);
 		camera.update();
 

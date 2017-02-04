@@ -35,6 +35,10 @@ public class Controllable {
     public Controllable(){}
 
     public void move(int direction) {
+
+        //!!! TÄTÄ EI TARVI SITTEN KUN ON ANIMAATIOT !!!
+        velocity = body.getLinearVelocity();
+
         //0 = STOP
         //1 = LEFT
         //2 = RIGHT
