@@ -12,16 +12,23 @@ public class AIInput {
         this.master = master;
     }
 
-    public void poll(){
-        //System.out.println(master.getClass().toString());
-        if(master instanceof Robotti) {
-            if ((master.body.getPosition().x - slave.body.getPosition().x) > 6) {
+    public void poll() {
+
+        if (master instanceof Robotti) {
+            float distance = master.body.getPosition().x - slave.body.getPosition().x;
+            if (distance > 5) {
+                slave.body.setActive(true);
                 slave.move(2);
-                //System.out.println("nyt seurataan oikealle");
-            } else {
-                slave.move(0);
-                //System.out.println("nyt ei seurata");
+
+            } else if (distance < -5) {
+                slave.body.setActive(true);
+                slave.move(1);
             }
+            else slave.move(0);
+
+            //ANNETAAN KÄVELLÄ LÄPI
+            if(distance < 2.1 && distance > -2.1) slave.body.setActive(false);
         }
+        slave.anim();
     }
 }

@@ -36,17 +36,17 @@ public class Katyri extends Controllable{
         position = body.getPosition();
 
         //GRAFIIKKA
-        /*
-        basicTex = new Texture("robotti/ropotti.png");
-        robo = new Sprite(basicTex);
-        robo.setSize(6, 6); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
-        walkRight = new Texture("robotti/robotti_walkRight.png");
-        action = new Texture("robotti/ropotti_air.png");
+        basicTex = new Texture("katyri/katyri.png");
+        sprite = new Sprite(basicTex);
+        sprite.setSize(4, 4); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
+        spriteXfix = 2;
+        spriteYfix = 2;
+        walkRight = new Texture("katyri/katyriWalk.png");
+        action = new Texture("katyri/katyriWalk.png");
         animSheet = basicTex;
         frame_cols = 1;
         walkSpeed = .05f;
         actionSpeed = .09f;
-        */
     }
 
     @Override public void action(){

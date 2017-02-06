@@ -53,10 +53,11 @@ public class RobottiMain extends ApplicationAdapter {
 
 		batch.begin();
 		level.draw(batch);
+		katyri.draw(batch);
 		robo.draw(batch);
 		batch.end();
 
-		debug.render(world, camera.combined);
+		//debug.render(world, camera.combined);
 		world.step(1/45f, 6, 2);
 	}
 	

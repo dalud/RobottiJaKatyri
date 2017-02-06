@@ -37,8 +37,10 @@ public class Robotti extends Controllable {
 
         //GRAFIIKKA
         basicTex = new Texture("robotti/ropotti.png");
-        robo = new Sprite(basicTex);
-        robo.setSize(6, 6); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
+        sprite = new Sprite(basicTex);
+        sprite.setSize(6, 6); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
+        spriteXfix = 3;
+        spriteYfix = 3;
         walkRight = new Texture("robotti/robotti_walkRight.png");
         action = new Texture("robotti/ropotti_air.png");
         animSheet = basicTex;
@@ -47,6 +49,7 @@ public class Robotti extends Controllable {
         actionSpeed = .09f;
     }
 
+    //HYPPY
     @Override public void action(){
         body.applyLinearImpulse(0, 8, position.x, position.y, true);
     }

@@ -16,11 +16,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class Controllable {
     Body body;
     Vector2 position, velocity;
-    Sprite robo;
-    private float animSpeed;
-    protected float walkSpeed;
-    protected float actionSpeed;
-    private float stateTime;
+    Sprite sprite;
+    private float animSpeed, stateTime;
+    protected float walkSpeed, actionSpeed, spriteXfix, spriteYfix;
     private TextureRegion[] animFrames;
     private TextureRegion currentFrame;
     int frame_cols;
@@ -35,10 +33,6 @@ public class Controllable {
     public Controllable(){}
 
     public void move(int direction) {
-
-        //!!! TÄTÄ EI TARVI SITTEN KUN ON ANIMAATIOT !!!
-        velocity = body.getLinearVelocity();
-
         //0 = STOP
         //1 = LEFT
         //2 = RIGHT
@@ -81,10 +75,10 @@ public class Controllable {
 
     public void draw(SpriteBatch batch){
         position = body.getPosition();
-        robo.setPosition(position.x-3, position.y-3);
+        sprite.setPosition(position.x-spriteXfix, position.y-spriteYfix);
         if(state == State.LEFT && !currentFrame.isFlipX()) currentFrame.flip(true, false); //KATO! TÄSSÄHÄN OPPII UUTTA!
-        robo.setRegion(currentFrame); //HUOM! AIKA TÄRKEÄ FUNKTIO, JOTA EI LÖYDY GDX-JAVADOCISTA
-        robo.draw(batch);
+        sprite.setRegion(currentFrame); //HUOM! AIKA TÄRKEÄ FUNKTIO, JOTA EI LÖYDY GDX-JAVADOCISTA
+        sprite.draw(batch);
     }
 
     public void anim() {
