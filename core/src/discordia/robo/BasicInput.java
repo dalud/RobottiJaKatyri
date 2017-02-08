@@ -9,12 +9,18 @@ import com.badlogic.gdx.InputProcessor;
  */
 
 public class BasicInput implements InputProcessor {
+    Robotti robo;
+    Katyri katyri;
     Controllable slave;
+    AIInput ai;
     int move, meridian, finger;
 
 
-    public BasicInput(Controllable slave){
-        this.slave = slave;
+    public BasicInput(Robotti robo, Katyri katyri, AIInput ai){
+        this.robo = robo;
+        this.katyri = katyri;
+        slave = robo;
+        this.ai = ai;
         meridian = Gdx.graphics.getWidth()/2;
     }
 
@@ -34,8 +40,15 @@ public class BasicInput implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.SPACE) slave.move(3);
+        else if(keycode == Input.Keys.DOWN) swap();
 
         return false;
+    }
+
+    public void swap() {
+        if(slave instanceof Robotti) slave = katyri;
+        else if(slave instanceof Katyri) slave = robo;
+        ai.swap();
     }
 
     @Override

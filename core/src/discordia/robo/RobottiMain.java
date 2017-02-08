@@ -2,9 +2,11 @@ package discordia.robo;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -19,7 +21,9 @@ public class RobottiMain extends ApplicationAdapter {
 	Robotti robo;
 	Katyri katyri;
 	BasicInput input;
+	GestureDetector androidInput;
 	AIInput ai;
+	private InputMultiplexer inputs;
 	
 	@Override
 	public void create () {
@@ -31,10 +35,12 @@ public class RobottiMain extends ApplicationAdapter {
 		level = new Level(world);
 		robo = new Robotti(world);
 		katyri = new Katyri(world);
-		input = new BasicInput(robo);
-		Gdx.input.setInputProcessor(input);
-		ai = new AIInput(katyri, robo);
+		ai = new AIInput(katyri, robo, camera);
+		input = new BasicInput(robo, katyri, ai);
+		androidInput = new GestureDetector(new AndroidInput(input));
+		inputs = new InputMultiplexer(input, androidInput);
 
+		Gdx.input.setInputProcessor(inputs);
 		camera.position.set(0, 7, 0);
 		camera.update();
 		Box2D.init();
@@ -48,7 +54,6 @@ public class RobottiMain extends ApplicationAdapter {
 
 		input.poll();
 		ai.poll();
-		camera.position.set(robo.position.x, robo.position.y+3, 0);
 		camera.update();
 
 		batch.begin();
@@ -64,6 +69,5 @@ public class RobottiMain extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-
 	}
 }
