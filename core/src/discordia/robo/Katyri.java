@@ -45,7 +45,7 @@ public class Katyri extends Controllable{
         action = new Texture("katyri/katyriWalk.png");
         animSheet = basicTex;
         frame_cols = 1;
-        walkSpeed = .05f;
+        walkSpeed = .04f;
         actionSpeed = .09f;
     }
 

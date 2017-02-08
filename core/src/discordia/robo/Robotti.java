@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Created by Käyttäjä on 4.2.2017.
+ * Created by Dalud on 4.2.2017.
  */
 
 public class Robotti extends Controllable {
