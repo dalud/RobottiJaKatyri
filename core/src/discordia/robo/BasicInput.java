@@ -22,9 +22,13 @@ public class BasicInput implements InputProcessor {
         slave = robo;
         this.ai = ai;
         meridian = Gdx.graphics.getWidth()/2;
+
     }
 
     public void poll() {
+        //TÄÄLLÄ KOSKA MOVE() ANIMOISI VAIN NAPPI ALHAALLA
+        slave.anim();
+
         //KEYS
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) slave.move(0);
         else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) slave.move(1);
@@ -33,8 +37,7 @@ public class BasicInput implements InputProcessor {
         //TOUCH
         else slave.move(move);
 
-        //TÄÄLLÄ KOSKA MOVE() ANIMOISI VAIN NAPPI ALHAALLA
-        slave.anim();
+
     }
 
     @Override

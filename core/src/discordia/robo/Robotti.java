@@ -18,7 +18,7 @@ public class Robotti extends Controllable {
         //FYSIIKKA
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, 7);
+        bodyDef.position.set(0, 16);
 
         body = world.createBody(bodyDef);
 
@@ -49,8 +49,11 @@ public class Robotti extends Controllable {
         actionSpeed = .09f;
     }
 
-    //HYPPY
-    @Override public void action(){
-        body.applyLinearImpulse(0, 8, position.x, position.y, true);
+    @Override
+    public void action(){
+        //HYPPY
+        if(!midAir) body.applyLinearImpulse(0, 9, position.x, position.y, true);
+        midAir = true;
+        hangTime = 0;
     }
 }

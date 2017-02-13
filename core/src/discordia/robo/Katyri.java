@@ -23,7 +23,7 @@ public class Katyri extends Controllable{
         body = world.createBody(bodyDef);
 
         PolygonShape box = new PolygonShape();
-        box.setAsBox(1, 2);
+        box.setAsBox(1, 1.5f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = box;
@@ -39,8 +39,8 @@ public class Katyri extends Controllable{
         basicTex = new Texture("katyri/katyri.png");
         sprite = new Sprite(basicTex);
         sprite.setSize(4, 4); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
-        spriteXfix = 2;
-        spriteYfix = 2;
+        spriteXfix = 2f;
+        spriteYfix = 1.5f;
         walkRight = new Texture("katyri/katyriWalk.png");
         action = new Texture("katyri/katyriWalk.png");
         animSheet = basicTex;
@@ -49,7 +49,8 @@ public class Katyri extends Controllable{
         actionSpeed = .09f;
     }
 
-    @Override public void action(){
+    @Override
+    public void action(){
 
     }
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 public class AIInput {
     Controllable slave, master, robo, katyri;
     OrthographicCamera camera;
+    boolean active;
 
     public AIInput(Controllable slave, Controllable master, OrthographicCamera camera){
         this.slave = slave;
@@ -20,15 +21,21 @@ public class AIInput {
     }
 
     public void poll() {
-        float distance = master.body.getPosition().x - slave.body.getPosition().x;
+        slave.anim();
+
+        slave.body.setActive(active);
+        float distanceX = master.body.getPosition().x - slave.body.getPosition().x;
+        float distanceY = master.body.getPosition().y - slave.body.getPosition().y;
+
+        //System.out.println("X: " +distanceX +", Y: " +distanceY);
 
         if (master instanceof Robotti) {
-            if (distance > 5) {
-                slave.body.setActive(true);
+            if (distanceX > 5) {
+                //active = true;
                 slave.move(2);
 
-            } else if (distance < -5) {
-                slave.body.setActive(true);
+            } else if (distanceX < -5) {
+                //active = true;
                 slave.move(1);
             }
             else slave.move(0);
@@ -36,9 +43,10 @@ public class AIInput {
         else if(master instanceof Katyri) slave.move(0);
 
         //ANNETAAN KÄVELLÄ LÄPI
-        if(distance < 2.1 && distance > -2.1) slave.body.setActive(false);
+        if(distanceY < 4 && (distanceX < 2.1 && distanceX > -2.1)) active = false;
+        else active = true;
 
-        slave.anim();
+
 
         //KAMERAN PÄIVITYS
         float focusX = master.position.x - camera.position.x;
