@@ -18,7 +18,7 @@ public class Robotti extends Controllable {
         //FYSIIKKA
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0, 16);
+        bodyDef.position.set(-16, 1);
 
         body = world.createBody(bodyDef);
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
@@ -24,6 +25,7 @@ public class RobottiMain extends ApplicationAdapter {
 	GestureDetector androidInput;
 	AIInput ai;
 	private InputMultiplexer inputs;
+	ShapeRenderer shaper;
 	
 	@Override
 	public void create () {
@@ -39,9 +41,10 @@ public class RobottiMain extends ApplicationAdapter {
 		input = new BasicInput(robo, katyri, ai);
 		androidInput = new GestureDetector(new AndroidInput(input));
 		inputs = new InputMultiplexer(input, androidInput);
+		shaper = new ShapeRenderer();
 
 		Gdx.input.setInputProcessor(inputs);
-		camera.position.set(0, 7, 0);
+		camera.position.set(-12, 8, 0);
 		camera.update();
 		Box2D.init();
 	}
@@ -51,13 +54,14 @@ public class RobottiMain extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
+		shaper.setProjectionMatrix(camera.combined);
 
 		input.poll();
 		ai.poll();
 		camera.update();
 
 		batch.begin();
-		level.draw(batch);
+		level.draw(batch, shaper);
 		katyri.draw(batch);
 		robo.draw(batch);
 		batch.end();

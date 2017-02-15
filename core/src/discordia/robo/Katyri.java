@@ -18,12 +18,12 @@ public class Katyri extends Controllable{
         //FYSIIKKA
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(-4, 7);
+        bodyDef.position.set(-20, 1);
 
         body = world.createBody(bodyDef);
 
         PolygonShape box = new PolygonShape();
-        box.setAsBox(1, 1.5f);
+        box.setAsBox(1, 1.2f);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = box;
@@ -40,7 +40,7 @@ public class Katyri extends Controllable{
         sprite = new Sprite(basicTex);
         sprite.setSize(4, 4); //SPRITET JOUTUU 2xTAMAAN, KOSKA FYSIIKAT LAITETTU KOKONAISIKSI
         spriteXfix = 2f;
-        spriteYfix = 1.5f;
+        spriteYfix = 1.2f;
         walkRight = new Texture("katyri/katyriWalk.png");
         action = new Texture("katyri/katyriWalk.png");
         animSheet = basicTex;
