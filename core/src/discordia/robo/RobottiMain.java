@@ -25,7 +25,7 @@ public class RobottiMain extends ApplicationAdapter {
 	GestureDetector androidInput;
 	AIInput ai;
 	private InputMultiplexer inputs;
-	ShapeRenderer shaper;
+	//ShapeRenderer shaper;
 	
 	@Override
 	public void create () {
@@ -41,7 +41,7 @@ public class RobottiMain extends ApplicationAdapter {
 		input = new BasicInput(robo, katyri, ai);
 		androidInput = new GestureDetector(new AndroidInput(input));
 		inputs = new InputMultiplexer(input, androidInput);
-		shaper = new ShapeRenderer();
+		//shaper = new ShapeRenderer();
 
 		Gdx.input.setInputProcessor(inputs);
 		camera.position.set(-12, 8, 0);
@@ -54,16 +54,17 @@ public class RobottiMain extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setProjectionMatrix(camera.combined);
-		shaper.setProjectionMatrix(camera.combined);
+		//shaper.setProjectionMatrix(camera.combined);
 
 		input.poll();
 		ai.poll();
 		camera.update();
 
 		batch.begin();
-		level.draw(batch, shaper);
+		level.draw(batch);
 		katyri.draw(batch);
 		robo.draw(batch);
+		katyri.poll(batch);
 		batch.end();
 
 		//debug.render(world, camera.combined);

@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 
 public class Level {
-    public Body ground, platform1;
+    public Body ground, platform1, elevator;
     Sprite grund, platformI, sky, apparatuS;
     Music theme1;
     Rectangle apparatus;
@@ -43,10 +43,17 @@ public class Level {
         box.setAsBox(6, 1);
         platform1.createFixture(box, 0);
 
+        //ELEVATOR
+        groundDef.position.set(12, 7);
+        groundDef.type = BodyDef.BodyType.KinematicBody;
+        elevator = world.createBody(groundDef);
+        box.setAsBox(4, 0);
+        elevator.createFixture(box, 0);
+
         box.dispose();
 
         //APPARATUS
-        apparatus = new Rectangle(22, 1, 4, 4);
+        apparatus = new Rectangle(22, 1, 3, 3);
 
 
         //================================================
@@ -79,7 +86,7 @@ public class Level {
         theme1.play();
     }
 
-    public void draw(SpriteBatch batch, ShapeRenderer shaper){
+    public void draw(SpriteBatch batch){
         sky.draw(batch);
         grund.draw(batch);
         platformI.draw(batch);
@@ -87,7 +94,7 @@ public class Level {
 
         //DEBUG-renderöintiä
         /*shaper.begin(ShapeRenderer.ShapeType.Filled);
-        shaper.setColor(Color.BLACK);
+        shaper.setColor(0,0,0,.5f);
         shaper.rect(apparatus.x, apparatus.y, apparatus.width, apparatus.height);
         shaper.end();*/
     }
