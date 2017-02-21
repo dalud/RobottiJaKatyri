@@ -1,5 +1,7 @@
 package discordia.robo;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,8 +15,11 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 
 public class Robotti extends Controllable {
+    Sound jump;
 
     public Robotti(World world){
+        jump = Gdx.audio.newSound(Gdx.files.internal("sounds/jump.mp3"));
+
         //FYSIIKKA
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -52,7 +57,10 @@ public class Robotti extends Controllable {
     @Override
     public void action(){
         //HYPPY
-        if(!midAir) body.applyLinearImpulse(0, 9, position.x, position.y, true);
+        if(!midAir) {
+            body.applyLinearImpulse(0, 9, position.x, position.y, true);
+            jump.play();
+        }
         midAir = true;
         hangTime = 0;
     }

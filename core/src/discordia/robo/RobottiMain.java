@@ -36,7 +36,7 @@ public class RobottiMain extends ApplicationAdapter {
 		camera = new OrthographicCamera(32, 18); //KOSKA HALUTAAN KÄYTTÄÄ FYSIIKKABOXIEN KO'OISSA 1siä EIKÄ .5sia
 		level = new Level(world);
 		robo = new Robotti(world);
-		katyri = new Katyri(world);
+		katyri = new Katyri(world, level);
 		ai = new AIInput(katyri, robo, camera);
 		input = new BasicInput(robo, katyri, ai);
 		androidInput = new GestureDetector(new AndroidInput(input));

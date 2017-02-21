@@ -2,12 +2,14 @@ package discordia.robo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -20,8 +22,13 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Level {
     public Body ground, platform1, elevator;
     Sprite grund, platformI, sky, apparatuS;
+    Texture down, up;
     Music theme1;
     Rectangle apparatus;
+    enum ElevState {    UP,
+                        DOWN    }
+    ElevState elevState;
+    Sound button;
 
     public Level(World world){
 
@@ -49,6 +56,7 @@ public class Level {
         elevator = world.createBody(groundDef);
         box.setAsBox(4, 0);
         elevator.createFixture(box, 0);
+        elevState = ElevState.DOWN;
 
         box.dispose();
 
@@ -72,9 +80,13 @@ public class Level {
         sky.setSize(92, 46);
         sky.setPosition(-46, 1);
 
-        apparatuS = new Sprite(new Texture("environs/apparatus.png"));
+        apparatuS = new Sprite();
         apparatuS.setSize(apparatus.width, apparatus.height);
         apparatuS.setPosition(apparatus.x, apparatus.y);
+
+        down = new Texture("environs/apparatusDown.png");
+        up = new Texture("environs/apparatusUp.png");
+        apparatuS.setRegion(down);
 
 
         //========
@@ -84,6 +96,8 @@ public class Level {
         theme1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/level1.mp3"));
         theme1.setLooping(true);
         theme1.play();
+
+        button = Gdx.audio.newSound(Gdx.files.internal("sounds/button.mp3"));
     }
 
     public void draw(SpriteBatch batch){
@@ -91,11 +105,23 @@ public class Level {
         grund.draw(batch);
         platformI.draw(batch);
         apparatuS.draw(batch);
+    }
 
-        //DEBUG-renderöintiä
-        /*shaper.begin(ShapeRenderer.ShapeType.Filled);
-        shaper.setColor(0,0,0,.5f);
-        shaper.rect(apparatus.x, apparatus.y, apparatus.width, apparatus.height);
-        shaper.end();*/
+    public void apparatusOperate(Vector2 oCoords){
+        Rectangle touch = new Rectangle(oCoords.x-1.5f, oCoords.y-1.5f, 3, 3);
+        if(touch.overlaps(apparatus)){
+            button.play();
+
+            switch (elevState){
+                case DOWN:
+                    elevState = ElevState.UP;
+                    apparatuS.setRegion(up);
+                    break;
+                case UP:
+                    elevState = ElevState.DOWN;
+                    apparatuS.setRegion(down);
+                    break;
+            }
+        }
     }
 }

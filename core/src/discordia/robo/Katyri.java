@@ -1,6 +1,8 @@
 package discordia.robo;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,10 +21,14 @@ public class Katyri extends Controllable{
     boolean buzz;
     int buzzC;
     float buzzT;
+    Level level;
+    Sound buzzS;
 
-    public Katyri(World world){
+    public Katyri(World world, Level level){
         ringu = new Sprite(new Texture(Gdx.files.internal("katyri/ringu.png")));
         ringu.setAlpha(.7f);
+        this.level = level;
+        buzzS = Gdx.audio.newSound(Gdx.files.internal("sounds/buzz.mp3"));
 
         //FYSIIKKA
         BodyDef bodyDef = new BodyDef();
@@ -61,23 +67,27 @@ public class Katyri extends Controllable{
 
     @Override
     public void action(){
+        buzzS.play();
         buzz = true;
-        buzzT = buzzC = 0;
+        level.apparatusOperate(position);
     }
 
     public void poll(SpriteBatch batch) {
         if(buzz) {
-            buzzT += .3f;
+            buzzT += .25f;
             ringu.setSize(buzzT, buzzT);
             ringu.setPosition(position.x-buzzT/2, position.y-buzzT/2);
             ringu.setOriginCenter();
             ringu.rotate(20);
             ringu.draw(batch);
         }
-        if(buzzT > 7) {
+        if(buzzT > 6) {
             buzzC++;
             buzzT = 0;
         }
-        if(buzzC == 3) buzz = false;
+        if(buzzC == 3) {
+            buzz = false;
+            buzzT = buzzC = 0;
+        }
     }
 }
