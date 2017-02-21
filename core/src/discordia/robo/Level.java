@@ -21,10 +21,10 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Level {
     public Body ground, platform1, elevator;
-    Sprite grund, platformI, sky, apparatuS;
+    Sprite grund, platformI, sky, apparatuS, elevatorS, doorS;
     Texture down, up;
     Music theme1;
-    Rectangle apparatus;
+    Rectangle apparatus, door;
     enum ElevState {    UP,
                         DOWN    }
     ElevState elevState;
@@ -63,6 +63,9 @@ public class Level {
         //APPARATUS
         apparatus = new Rectangle(22, 1, 3, 3);
 
+        //DOOR
+        //door = new Rectangle(-15, 1, 6, 12);
+
 
         //================================================
         // GRAFIIKAT (täytyy skaalaa x2 fysiikoihin nähen)
@@ -88,6 +91,14 @@ public class Level {
         up = new Texture("environs/apparatusUp.png");
         apparatuS.setRegion(down);
 
+        /*elevatorS = new Sprite(new Texture("environs/elevator.png"));
+        elevatorS.setSize(8, 3);
+        elevatorS.setPosition(-4, 1);
+
+        doorS = new Sprite(new Texture("environs/door.png"));
+        doorS.setSize(door.width, door.height);
+        doorS.setPosition(door.x, door.y);*/
+
 
         //========
         // SOUNDIT
@@ -105,6 +116,9 @@ public class Level {
         grund.draw(batch);
         platformI.draw(batch);
         apparatuS.draw(batch);
+        //doorS.draw(batch);
+
+        //elevatorS.draw(batch); //tämä täytyy siirtää drawFront();
     }
 
     public void apparatusOperate(Vector2 oCoords){
