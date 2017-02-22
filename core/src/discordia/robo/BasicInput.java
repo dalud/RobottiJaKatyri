@@ -3,6 +3,7 @@ package discordia.robo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
 /**
  * Created by Dalud on 29.1.2017.
@@ -14,15 +15,16 @@ public class BasicInput implements InputProcessor {
     Controllable slave;
     AIInput ai;
     int move, meridian, finger;
+    OrthographicCamera camera;
 
 
-    public BasicInput(Robotti robo, Katyri katyri, AIInput ai){
+    public BasicInput(Robotti robo, Katyri katyri, AIInput ai, OrthographicCamera camera){
         this.robo = robo;
         this.katyri = katyri;
         slave = robo;
         this.ai = ai;
         meridian = Gdx.graphics.getWidth()/2;
-
+        this.camera = camera;
     }
 
     public void poll() {
@@ -37,7 +39,11 @@ public class BasicInput implements InputProcessor {
         //TOUCH
         else slave.move(move);
 
-
+        //KAMERAHUIJAUS
+        if(Gdx.input.isKeyPressed(Input.Keys.W)) camera.translate(0, 1);
+        if(Gdx.input.isKeyPressed(Input.Keys.D)) camera.translate(1, 0);
+        if(Gdx.input.isKeyPressed(Input.Keys.S)) camera.translate(0, -1);
+        if(Gdx.input.isKeyPressed(Input.Keys.A)) camera.translate(-1, 0);
     }
 
     @Override

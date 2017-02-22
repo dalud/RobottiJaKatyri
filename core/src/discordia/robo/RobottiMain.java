@@ -38,7 +38,7 @@ public class RobottiMain extends ApplicationAdapter {
 		robo = new Robotti(world);
 		katyri = new Katyri(world, level);
 		ai = new AIInput(katyri, robo, camera);
-		input = new BasicInput(robo, katyri, ai);
+		input = new BasicInput(robo, katyri, ai, camera);
 		androidInput = new GestureDetector(new AndroidInput(input));
 		inputs = new InputMultiplexer(input, androidInput);
 		//shaper = new ShapeRenderer();
@@ -58,6 +58,7 @@ public class RobottiMain extends ApplicationAdapter {
 
 		input.poll();
 		ai.poll();
+		level.poll();
 		camera.update();
 
 		batch.begin();
@@ -65,6 +66,7 @@ public class RobottiMain extends ApplicationAdapter {
 		katyri.draw(batch);
 		robo.draw(batch);
 		katyri.poll(batch);
+		level.drawFront(batch);
 		batch.end();
 
 		//debug.render(world, camera.combined);

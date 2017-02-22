@@ -20,11 +20,12 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 
 public class Level {
-    public Body ground, platform1, elevator;
-    Sprite grund, platformI, sky, apparatuS, elevatorS, doorS;
+    public Body ground, platform1, platform2, elevator;
+    Sprite grund, platformI, platformII, sky, apparatuS, elevatorS, doorS;
     Texture down, up;
     Music theme1;
     Rectangle apparatus, door;
+
     enum ElevState {    UP,
                         DOWN    }
     ElevState elevState;
@@ -49,6 +50,11 @@ public class Level {
         platform1 = world.createBody(groundDef);
         box.setAsBox(6, 1);
         platform1.createFixture(box, 0);
+        //2
+        groundDef.position.set(-2, 20);
+        platform2 = world.createBody(groundDef);
+        box.setAsBox(10, 1);
+        platform2.createFixture(box, 0);
 
         //ELEVATOR
         groundDef.position.set(12, 7);
@@ -64,7 +70,7 @@ public class Level {
         apparatus = new Rectangle(22, 1, 3, 3);
 
         //DOOR
-        //door = new Rectangle(-15, 1, 6, 12);
+        door = new Rectangle(platform2.getPosition().x-4, platform2.getPosition().y+1, 6, 12);
 
 
         //================================================
@@ -79,6 +85,10 @@ public class Level {
         platformI.setSize(13, 3);
         platformI.setPosition(platform1.getPosition().x-6.5f, platform1.getPosition().y-1);
 
+        platformII = new Sprite(grund);
+        platformII.setSize(20, 3);
+        platformII.setPosition(platform2.getPosition().x-10, platform2.getPosition().y-1);
+
         sky = new Sprite(new Texture("environs/sky.png"));
         sky.setSize(92, 46);
         sky.setPosition(-46, 1);
@@ -91,13 +101,13 @@ public class Level {
         up = new Texture("environs/apparatusUp.png");
         apparatuS.setRegion(down);
 
-        /*elevatorS = new Sprite(new Texture("environs/elevator.png"));
+        elevatorS = new Sprite(new Texture("environs/elevator.png"));
         elevatorS.setSize(8, 3);
-        elevatorS.setPosition(-4, 1);
+        elevatorS.setPosition(elevator.getPosition().x-4, elevator.getPosition().y-1);
 
         doorS = new Sprite(new Texture("environs/door.png"));
         doorS.setSize(door.width, door.height);
-        doorS.setPosition(door.x, door.y);*/
+        doorS.setPosition(door.x, door.y);
 
 
         //========
@@ -111,14 +121,31 @@ public class Level {
         button = Gdx.audio.newSound(Gdx.files.internal("sounds/button.mp3"));
     }
 
+    public void poll() {
+        switch(elevState){
+            case UP:
+                if(elevator.getPosition().y < 21) elevator.setLinearVelocity(0, 1);
+                else elevator.setLinearVelocity(0, 0);
+                break;
+            case DOWN:
+                if(elevator.getPosition().y > 7) elevator.setLinearVelocity(0, -1);
+                else elevator.setLinearVelocity(0, 0);
+                break;
+        }
+        elevatorS.setPosition(elevator.getPosition().x-4, elevator.getPosition().y-1);
+    }
+
     public void draw(SpriteBatch batch){
         sky.draw(batch);
         grund.draw(batch);
         platformI.draw(batch);
+        platformII.draw(batch);
         apparatuS.draw(batch);
-        //doorS.draw(batch);
+        doorS.draw(batch);
+    }
 
-        //elevatorS.draw(batch); //tämä täytyy siirtää drawFront();
+    public void drawFront(SpriteBatch batch) {
+        elevatorS.draw(batch);
     }
 
     public void apparatusOperate(Vector2 oCoords){
