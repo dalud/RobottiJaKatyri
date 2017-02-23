@@ -16,15 +16,17 @@ public class BasicInput implements InputProcessor {
     AIInput ai;
     int move, meridian, finger;
     OrthographicCamera camera;
+    RobottiMain main;
+    boolean dead;
 
-
-    public BasicInput(Robotti robo, Katyri katyri, AIInput ai, OrthographicCamera camera){
+    public BasicInput(Robotti robo, Katyri katyri, AIInput ai, OrthographicCamera camera, RobottiMain robottiMain){
         this.robo = robo;
         this.katyri = katyri;
         slave = robo;
         this.ai = ai;
         meridian = Gdx.graphics.getWidth()/2;
         this.camera = camera;
+        this.main = robottiMain;
     }
 
     public void poll() {
@@ -44,6 +46,11 @@ public class BasicInput implements InputProcessor {
         if(Gdx.input.isKeyPressed(Input.Keys.D)) camera.translate(1, 0);
         if(Gdx.input.isKeyPressed(Input.Keys.S)) camera.translate(0, -1);
         if(Gdx.input.isKeyPressed(Input.Keys.A)) camera.translate(-1, 0);
+
+        //TIPPUMISRESURREKTIO
+        if(slave.position.y < -10){
+            slave.body.applyForceToCenter(0, 20, true);
+        }
     }
 
     @Override
@@ -86,6 +93,7 @@ public class BasicInput implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         finger--;
+        if(finger <0) finger = 0;
 
         if(finger == 0) move = 0;
         else if(screenX < meridian) move = 2;

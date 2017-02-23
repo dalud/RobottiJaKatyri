@@ -58,7 +58,7 @@ public class Robotti extends Controllable {
     public void action(){
         //HYPPY
         if(!midAir) {
-            body.applyLinearImpulse(0, 9, position.x, position.y, true);
+            body.applyLinearImpulse(0, 11, position.x, position.y, true);
             jump.play();
         }
         midAir = true;

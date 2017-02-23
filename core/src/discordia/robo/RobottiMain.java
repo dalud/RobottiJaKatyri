@@ -24,6 +24,7 @@ public class RobottiMain extends ApplicationAdapter {
 	BasicInput input;
 	GestureDetector androidInput;
 	AIInput ai;
+
 	private InputMultiplexer inputs;
 	//ShapeRenderer shaper;
 	
@@ -34,13 +35,14 @@ public class RobottiMain extends ApplicationAdapter {
 		debug = new Box2DDebugRenderer();
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera(32, 18); //KOSKA HALUTAAN KÄYTTÄÄ FYSIIKKABOXIEN KO'OISSA 1siä EIKÄ .5sia
-		level = new Level(world);
 		robo = new Robotti(world);
+		level = new Level(world, robo, camera, this);
 		katyri = new Katyri(world, level);
 		ai = new AIInput(katyri, robo, camera);
-		input = new BasicInput(robo, katyri, ai, camera);
+		input = new BasicInput(robo, katyri, ai, camera, this);
 		androidInput = new GestureDetector(new AndroidInput(input));
 		inputs = new InputMultiplexer(input, androidInput);
+
 		//shaper = new ShapeRenderer();
 
 		Gdx.input.setInputProcessor(inputs);
@@ -61,10 +63,13 @@ public class RobottiMain extends ApplicationAdapter {
 		level.poll();
 		camera.update();
 
+
+
 		batch.begin();
 		level.draw(batch);
 		katyri.draw(batch);
-		robo.draw(batch);
+		if(input.dead) System.out.println("DEAD");
+		if(!input.dead) robo.draw(batch);
 		katyri.poll(batch);
 		level.drawFront(batch);
 		batch.end();
@@ -75,6 +80,7 @@ public class RobottiMain extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
+
 		batch.dispose();
 	}
 }
